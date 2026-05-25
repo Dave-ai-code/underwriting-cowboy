@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>UnderwritingCowboy.com — Selected wireframes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #f3efe5; font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+
+  /* Page switcher rail */
+  .ps-rail {
+    position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+    z-index: 9999; display: flex; gap: 4px; padding: 5px;
+    background: #16181c; color: #f3efe5; border-radius: 999px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+    letter-spacing: 1.4px; text-transform: uppercase;
+    box-shadow: 0 6px 24px rgba(0,0,0,.28);
+  }
+  .ps-rail button {
+    background: transparent; border: 0; color: rgba(243,239,229,.6);
+    font: inherit; padding: 8px 12px; border-radius: 999px; cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .ps-rail button:hover { color: #f3efe5; }
+  .ps-rail button[data-active="true"] {
+    background: #b88433; color: #16181c;
+  }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="primitives.jsx"></script>
+<script type="text/babel" src="page-homepage.jsx"></script>
+<script type="text/babel" src="page-fieldguide.jsx"></script>
+<script type="text/babel" src="page-walkthrough.jsx"></script>
+<script type="text/babel" src="page-roundup-toolkit.jsx"></script>
+<script type="text/babel" src="page-about-work-subscribe.jsx"></script>
+
+<script type="text/babel">
+const PAGES = [
+  { id: 'home',       label: 'Home',        Comp: HomepageA },
+  { id: 'fg',         label: 'Field Guide', Comp: FieldGuideA },
+  { id: 'walk',       label: 'Walkthrough', Comp: WalkthroughA },
+  { id: 'roundup',    label: 'Roundup',     Comp: RoundupA },
+  { id: 'toolkit',    label: 'Toolkit',     Comp: ToolkitA },
+  { id: 'about',      label: 'The Cowboy',  Comp: AboutB },
+  { id: 'work',       label: 'Work With Me',Comp: WorkA },
+  { id: 'subscribe',  label: 'Subscribe',   Comp: SubscribeB },
+];
+
+// Map nav link keys → page ids
+const NAV_TO_ID = {
+  home: 'home',
+  fg: 'fg',
+  roundup: 'roundup',
+  toolkit: 'toolkit',
+  about: 'about',
+  work: 'work',
+  subscribe: 'subscribe',
+};
+
+function readHash() {
+  const h = (location.hash || '').replace('#', '');
+  return PAGES.find(p => p.id === h)?.id || 'home';
+}
+
+function App() {
+  const [page, setPage] = React.useState(readHash());
+
+  React.useEffect(() => {
+    const onHash = () => setPage(readHash());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  const go = React.useCallback((key) => {
+    const id = NAV_TO_ID[key] || key;
+    if (!PAGES.find(p => p.id === id)) return;
+    location.hash = id;
+    setPage(id);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
+  const Active = PAGES.find(p => p.id === page)?.Comp || HomepageA;
+
+  return (
+    <NavCtx.Provider value={go}>
+      <div data-screen-label={page}>
+        <Active />
+      </div>
+
+      {/* Floating page switcher (your panel — visitors of the live site wouldn't see this) */}
+      <div className="ps-rail" role="tablist" aria-label="Wireframe pages">
+        {PAGES.map(p => (
+          <button key={p.id}
+            data-active={p.id === page}
+            onClick={() => go(p.id)}>
+            {p.label}
+          </button>
+        ))}
+      </div>
+    </NavCtx.Provider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
