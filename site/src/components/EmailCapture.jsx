@@ -36,6 +36,12 @@ export function EmailCapture({ wide, dark, source }) {
         body: body.toString(),
       });
 
+      // Fire Plausible custom event — shows up as "Newsletter Signup" in your dashboard
+      // props.source lets you filter by which form triggered the signup
+      if (typeof window.plausible === 'function') {
+        window.plausible('Newsletter Signup', { props: { source: source || 'unknown' } });
+      }
+
       setStatus('success');
       setEmail('');
     } catch (err) {
