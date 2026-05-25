@@ -21,6 +21,133 @@
 
 export const walkthroughs = [
 
+  // ── 054 ──────────────────────────────────────────────────────
+  {
+    num: '054',
+    slug: 'simplified-travel-policy-wording',
+    category: 'POLICY & WORDING',
+    title: 'Rewriting a travel insurance policy wording so customers can actually read it — structured, plain-English, and ready to navigate.',
+    date: '25.05.26',
+    readTime: '10 MIN',
+    tool: 'ChatGPT / Claude',
+    difficulty: 'Intermediate',
+    access: 'free',
+    excerpt: 'Standard travel policy wordings are written for lawyers, not travellers. This walkthrough takes a dense, legalese document and rebuilds it as a clean, customer-facing wording with logical sections, plain language, and a structure readers can actually navigate.',
+    sections: [
+      {
+        num: '01',
+        name: 'The Problem',
+        heading: 'Travel insurance policies are among the most-read documents in insurance — and the least understood.',
+        paragraphs: [
+          'A customer buys travel insurance. Their bag gets lost at the airport. They file a claim. Then they read the policy for the first time.',
+          'The standard travel wording they receive is 40 to 60 pages of dense text, written to satisfy legal and regulatory requirements, cross-referencing definitions buried in section eight, with exclusions scattered across every benefit section. It is not unreadable because insurers are malicious. It is unreadable because nobody has ever been incentivised to fix it.',
+          'This creates two real business problems. First, it drives claims disputes — customers claim for things not covered, or miss entitlements they had. Both are expensive. Second, it damages the product\'s perceived value at purchase. A policy that looks impenetrable signals "this won\'t pay out."',
+          'AI can rewrite a policy wording in plain English, restructure it around how customers actually use it, and produce an output that is clearer without changing the coverage. This walkthrough shows you exactly how.',
+        ],
+        image: null,
+      },
+      {
+        num: '02',
+        name: 'The Approach',
+        heading: 'Three phases: structure first, language second, navigability third. Do not skip the order.',
+        paragraphs: [
+          'The mistake most people make is asking AI to "simplify this policy" and pasting the whole document at once. What comes back is a flattened rewrite with no structure — readable paragraphs that are still hard to navigate. Worse, the model sometimes quietly drops coverage nuances to make the language flow better.',
+          'The right approach has three distinct phases. Phase 1 is structural: before touching a single word, map the document\'s logical architecture and propose a customer-friendly information hierarchy. What does a customer need to know first? What do they only look for when something goes wrong? This becomes the table of contents.',
+          'Phase 2 is the rewrite, section by section. Never the whole document at once. Give the model one section at a time, ask it to rewrite in plain English, and review each output against the original. This is where you catch coverage drift — unintentional narrowing or broadening of what the language actually says.',
+          'Phase 3 is navigability. This is where you add the structure that lets readers find what they need: numbered section headers, a what\'s covered / what\'s not covered summary box at the top of each benefit, a definitions section written in plain English (not "means hereinafter the following"), and cross-references that point forward instead of back.',
+        ],
+        image: null,
+      },
+      {
+        num: '03',
+        name: 'The Walkthrough',
+        heading: 'The prompts, in order. Starting with a section map, ending with a document ready for legal review.',
+        paragraphs: [
+          'Start with the structural prompt. Paste your full policy wording and ask the model to read it without rewriting anything. Have it return a proposed section map: the sections it would create, what original content maps to each, and what it thinks the customer needs to find in under 30 seconds. Review this map carefully. The structure it proposes reflects assumptions about your customer — you may want to reorder based on your actual claims enquiry data.',
+          'Then rewrite section by section. Use the section prompt from the Steal This box. The key instruction is "match coverage precisely — do not add, remove, or implicitly narrow any coverage." After each section, paste the original and the rewrite side by side and ask the model to identify any coverage divergences. It will usually find one or two. Fix them before moving on.',
+          'For each benefit section, ask for a summary box: a two-column table with "What\'s covered" on the left and "What\'s not covered (key exclusions)" on the right. Keep it to five bullet points per side. This is the box your customer reads. The detailed text below is for disputes.',
+          'Finally, have the model generate a table of contents with anchor descriptions for each section. In a PDF, these become hyperlinks. In an HTML version, they become real navigation. In a printed document, they at least tell the reader where to go. This is the navigability layer that turns a rewrite into a usable document.',
+        ],
+        image: '[ screenshot — before/after section comparison, original legalese vs plain English output ]',
+      },
+      {
+        num: '04',
+        name: 'The Output',
+        heading: 'A restructured, plain-English draft ready for your legal and compliance team to review — not a finished document.',
+        paragraphs: [
+          'The output of this process is a draft, not a final document. It needs legal review before it goes anywhere near a customer. The purpose of the AI-assisted rewrite is to move from a blank page to a structured draft in hours rather than days — the legal review is still essential.',
+          'What the output gives you: a consistent reading level across all sections (typically Flesch-Kincaid grade 8–10, down from 14–16 in a standard wording), a logical information hierarchy that matches how customers use the product, summary boxes at the top of each benefit section, and a clean table of contents.',
+          'What it does not give you: regulatory approval, legal certainty, or a guarantee that coverage meaning has been preserved throughout. One missed qualifier or a subtly reworded exclusion can create a material coverage change. The review step is not a formality.',
+          'For teams that want to go further: the same process can produce an HTML version of the policy with genuine anchor navigation — each section header links from the table of contents. This is not a separate project; it is a 20-minute extension of Phase 3 using the HTML prompt in the Steal This box.',
+        ],
+        image: '[ screenshot — table of contents with clickable sections, benefit summary box ]',
+      },
+      {
+        num: '05',
+        name: 'The Verdict',
+        heading: 'The technical work here is straightforward. The hard part is getting internal sign-off to change something that legal has approved for ten years.',
+        paragraphs: [
+          'AI makes the mechanics of this easy. The bottleneck is never the rewrite itself — it is internal stakeholder alignment. Legal teams are rightly cautious about changing approved wording. Compliance teams worry about what regulators will think. Distribution teams worry brokers will ask questions.',
+          'The strongest argument is the one that starts with claims data. If you can show that a category of disputes consistently involves customers who misunderstood a specific coverage section, you have a business case for a simpler wording — and you have the specific section to prioritise.',
+          'Start small. Pick one benefit section — medical expenses is usually the highest-enquiry, highest-dispute section in a travel policy. Run the rewrite on that section only. Show the before and after to a non-insurance reader and ask them which one they understand. That comparison is your internal pitch deck.',
+        ],
+        image: null,
+      },
+    ],
+    stealThis: `# TRAVEL POLICY PLAIN-LANGUAGE REWRITE
+# Run in three phases. Review each output before proceeding.
+
+=== PHASE 1: STRUCTURE MAP ===
+Read the following travel insurance policy wording in full.
+Do not rewrite anything yet.
+
+Return:
+1. A proposed section map — the logical sections a customer needs,
+   in the order they would look for them (not the original document order)
+2. Which original clauses map to each proposed section
+3. The three things a customer most urgently needs to find
+   (e.g. "how do I make a claim", "what is not covered", "what are my limits")
+4. Any structural problems you notice (buried definitions, scattered exclusions, etc.)
+
+[PASTE FULL POLICY WORDING HERE]
+
+=== PHASE 2: SECTION REWRITE ===
+Rewrite the following section of a travel insurance policy in plain English.
+
+Rules:
+- Target reading level: Grade 8 (conversational but not condescending)
+- Match coverage precisely — do not add, remove, or implicitly narrow any coverage
+- Replace defined terms with plain equivalents where the definition is simple
+  (e.g. "the Insured Person" → "you"); keep defined terms where precision matters
+- Use short sentences. One idea per sentence.
+- Use active voice wherever possible
+- Do not use: "herein", "thereto", "aforementioned", "the said", "notwithstanding"
+
+After the rewrite, identify any places where your language might change
+the coverage meaning — even subtly. Flag them explicitly.
+
+[PASTE ONE SECTION HERE]
+
+=== PHASE 3A: SUMMARY BOX ===
+For the rewritten section above, create a summary box formatted as two columns:
+
+| WHAT'S COVERED | WHAT'S NOT COVERED |
+|---|---|
+| (5 bullet points max) | (5 bullet points max, key exclusions only) |
+
+Write for a customer who has 20 seconds. Not a lawyer.
+
+=== PHASE 3B: TABLE OF CONTENTS ===
+Based on the complete rewritten policy, generate a table of contents.
+
+For each section, include:
+- Section number and title
+- One-sentence description of what the customer will find there
+- The question it answers (e.g. "What happens if I need a doctor abroad?")
+
+Format for use as a clickable navigation panel.`,
+  },
+
   // ── 053 ──────────────────────────────────────────────────────
   {
     num: '053',
